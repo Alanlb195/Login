@@ -1,0 +1,67 @@
+﻿@model LoginDBServices.Models.DTOs.RegisterAccount;
+
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="row mt-5 justify-content-center">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <h1 class="text-center">Registro</h1>
+        <form asp-action="Index" method="post">
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" class="form-control" asp-for="Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            @*perfil - Desplegar todos los Modulos con el attribute isActive = true*@
+            <div class="form-group">
+                <label asp-for="IdRoles"></label>
+                
+                <select multiple class="form-control" id="mySelect">
+                    
+
+                    <option value="">Valor 1</option>
+
+
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input type="text" class="form-control" asp-for="Email">
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsActive"></label>
+                <select class="form-control">
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                <span class="text-danger" asp-validation-for="IsActive"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input type="password" class="form-control" asp-for="Password">
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input type="password" class="form-control" asp-for="ConfirmPassword">
+                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>

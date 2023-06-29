@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1 class="mt-4 mb-4">Bienvenido a la página de Home</h1>
+
+<p>En la barra de navegación se muestran los módulos a los que tienes acceso</p>
+
+<p>Tu información de inicio de sesion fué guardada en una coockie llamada UserData. la cual contiene 3 datos:</p>
+
+
+
+<div style="display: flex; flex-flow: column wrap">
+
+    @if (!string.IsNullOrEmpty(ViewBag.Name))
+    {
+        <p><span>Name:</span> @ViewBag.Name</p>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Email))
+    {
+        <p><span>Email:</span> @ViewBag.Email</p>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Token))
+    {
+        <div style="max-width: 300px;">
+            <p style="overflow-wrap: break-word;"><span>JWT Bearer:</span> @ViewBag.Token</p>
+        </div>
+    }
+
+
+</div>
