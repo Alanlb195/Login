@@ -1,6 +1,6 @@
 ﻿using login_12.Models;
+using LoginDBServices.Account.DTOs;
 using LoginDBServices.Interfaces;
-using LoginDBServices.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

@@ -1,26 +1,36 @@
 ﻿using LoginDBRepo.DBContext;
-using LoginDBServices.Models.Common;
-using LoginDBServices.Models.DTOs;
-using LoginDBServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LoginDBServices.Account.DTOs;
+using LoginDBServices.Account.Interfaces;
+using LoginDBRepo.Interfaces;
 
-namespace LoginDBServices.Services
+namespace LoginDBServices.Account.Services
 {
     public class UserService : IUserService
     {
         private readonly AppSettings _appSettings;
         private readonly IConfiguration _configuration;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountRolRepository _accountRolRepository;
+        private readonly IRolRepository _rolRepository;
         private readonly IGenerateWebTokenService _generateWebTokenService;
 
-        public UserService(IOptions<AppSettings> appSettings, IConfiguration configuration, IGenerateWebTokenService generateWebToken)
+
+        public UserService(
+            IOptions<AppSettings> appSettings,
+            IConfiguration configuration,
+            IAccountRepository accountRepository,
+            IAccountRolRepository accountRolRepository,
+            IRolRepository rolRepository,
+            IGenerateWebTokenService generateWebToken)
         {
             _configuration = configuration;
             _appSettings = appSettings.Value;
+            _accountRepository = accountRepository;
+            _accountRolRepository = accountRolRepository;
+            _rolRepository = rolRepository;
             _generateWebTokenService = generateWebToken;
         }
 
@@ -30,11 +40,28 @@ namespace LoginDBServices.Services
 
             string hashedPassword = Encrypt.GetSHA256(model.Password);
 
-            var account = await db.Account
-                .FirstOrDefaultAsync(d => d.Email == model.Email && d.Password == hashedPassword);
+            var account = await _accountRepository.GetAccountByEmailAndPassword(model.Email, model.Password);
 
             if (account == null)
                 return null;
+
+            // Obtengo todos los registros de la tabla Pivote que coinciden con el IdAccount de la cuenta
+            var accountRoles = await _accountRolRepository.GetAccountRolesByAccountId(account.IdAccount);
+
+            // Obtengo todos los roles
+            var allRoles = await _rolRepository.GetAllRoles();
+
+            // Filtro los roles para solo los que tenga el usuario
+
+
+            foreach (var rolesDelUsuario in accountRoles)
+            {
+
+            }
+
+
+
+
 
             var accountRoleIds = await db.AccountRol
                 .Where(a => a.IdAccount == account.IdAccount)

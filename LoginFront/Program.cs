@@ -1,9 +1,11 @@
 using LoginDBRepo.DBContext;
-using LoginDBServices.Interfaces;
+using LoginDBServices.Account.DTOs;
+using LoginDBServices.Account.Interfaces;
+using LoginDBServices.Account.Services;
 using LoginDBServices.Interfaces.Modules;
-using LoginDBServices.Models.DTOs;
-using LoginDBServices.Services;
+using LoginDBServices.Interfaces.Roles;
 using LoginDBServices.Services.Modules;
+using LoginDBServices.Services.Roles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -18,7 +20,8 @@ builder.Services.AddDbContext<LoginDBContext>();
 
 // Services Business Logic Layer
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IModuleService, ModuleService>();
+//builder.Services.AddScoped<IRoleService, RoleService>();
+//builder.Services.AddScoped<IModuleService, ModuleService>();
 // Auth Conf
 builder.Services.AddScoped<IGenerateWebTokenService, GenerateWebTokenService>();
 

@@ -1,4 +1,4 @@
-﻿namespace LoginDBServices.Models.Common
+﻿namespace LoginDBServices.Account.DTOs
 {
     public class AppSettings
     {

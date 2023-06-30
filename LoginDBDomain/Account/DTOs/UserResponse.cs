@@ -1,4 +1,4 @@
-﻿namespace LoginDBServices.Models.DTOs
+﻿namespace LoginDBServices.Account.DTOs
 {
     [Serializable]
     public class UserResponse

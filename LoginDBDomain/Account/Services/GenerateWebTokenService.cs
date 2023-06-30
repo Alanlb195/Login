@@ -1,12 +1,12 @@
 ﻿using LoginDB.Models;
-using LoginDBServices.Interfaces;
+using LoginDBServices.Account.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace LoginDBServices.Services
+namespace LoginDBServices.Account.Services
 {
     public class GenerateWebTokenService : IGenerateWebTokenService
     {

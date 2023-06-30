@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LoginDBServices.Models.DTOs
+namespace LoginDBServices.Account.DTOs
 {
     public class RegisterAccount
     {
         [DisplayName("Nombre")]
-        [Required(ErrorMessage ="Nombre obligatorio")]
+        [Required(ErrorMessage = "Nombre obligatorio")]
         public string Name { get; set; }
 
 
@@ -31,7 +31,7 @@ namespace LoginDBServices.Models.DTOs
         public string Password { get; set; }
 
         [DisplayName("Confirmar contraseña")]
-        [Required(ErrorMessage ="Confirma la contraseña")]
+        [Required(ErrorMessage = "Confirma la contraseña")]
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }

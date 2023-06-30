@@ -1,4 +1,4 @@
-﻿@model LoginDBServices.Models.DTOs.RegisterAccount;
+﻿@model RegisterAccount;
 
 
 @{
@@ -16,21 +16,16 @@
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-            @*perfil - Desplegar todos los Modulos con el attribute isActive = true*@
+            @*perfil - Desplegar todos los Roles activos disponibles*@
             <div class="form-group">
-                <label asp-for="IdRoles"></label>
+                <label>Escoge los Roles que tendrá este usuario</label>
                 
                 <select multiple class="form-control" id="mySelect">
-                    
-
                     <option value="">Valor 1</option>
-
-
-
+                    <option value="">Valor 2</option>
                 </select>
 
             </div>
-
 
             <div class="form-group">
                 <label asp-for="Email"></label>

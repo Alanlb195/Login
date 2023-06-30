@@ -1,43 +1,27 @@
 ﻿using LoginDB.Models;
 using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LoginDBRepo.Repositories
 {
     public class RolRepository : IRolRepository
     {
-        private readonly LoginDBContext dbContext;
+        private readonly LoginDBContext _loginDBContext;
+
         public RolRepository(LoginDBContext loginDBContext)
         {
-            dbContext = loginDBContext;
+            _loginDBContext = loginDBContext;
         }
 
-        public Rol GetRolById(int rolId)
+        public async Task<List<Rol>> GetAllRoles()
         {
-            return dbContext.Rol.FirstOrDefault(r => r.IdRol == rolId);
-        }
-
-        public List<Rol> GetAllRoles()
-        {
-            return dbContext.Rol.ToList();
-        }
-
-        public void AddRol(Rol rol)
-        {
-            dbContext.Rol.Add(rol);
-            dbContext.SaveChanges();
-        }
-
-        public void UpdateRol(Rol rol)
-        {
-            dbContext.Rol.Update(rol);
-            dbContext.SaveChanges();
-        }
-
-        public void DeleteRol(Rol rol)
-        {
-            dbContext.Rol.Remove(rol);
-            dbContext.SaveChanges();
+            return await _loginDBContext.Rol.ToListAsync();
         }
     }
 }

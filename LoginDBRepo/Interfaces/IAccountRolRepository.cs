@@ -1,8 +1,14 @@
-﻿namespace LoginDBRepo.Interfaces
+﻿using LoginDB.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace LoginDBRepo.Interfaces
 {
     public interface IAccountRolRepository
     {
-        void AssignRolToAccount(int accountId, int rolId);
-        void RemoveRolFromAccount(int accountId, int rolId);
+        Task AssignRolToAccount(int accountId, int rolId);
+        Task RemoveRolFromAccount(int accountId, int rolId);
+        Task<List<AccountRol>> GetAccountRolesByAccountId(int accountId);
+        Task<List<AccountRol>> GetAccountRolesByRolId(int rolId);
     }
 }

@@ -1,6 +1,6 @@
-﻿using LoginDBServices.Models.DTOs;
+﻿using LoginDBServices.Account.DTOs;
 
-namespace LoginDBServices.Interfaces
+namespace LoginDBServices.Account.Interfaces
 {
     public interface IUserService
     {
