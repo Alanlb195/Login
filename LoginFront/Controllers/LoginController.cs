@@ -59,5 +59,18 @@ namespace login_12.Controllers
             //  Se le redirecciona a Home junto con el token para su posterior validación
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            // Realiza las acciones necesarias para cerrar la sesión, como eliminar cookies, limpiar la información de autenticación, etc.
+            HttpContext.Response.Cookies.Delete("UserData");
+
+            return RedirectToAction("Index", "Login");
+        }
+
+
     }
 }

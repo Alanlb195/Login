@@ -1,4 +1,6 @@
 using LoginDBRepo.DBContext;
+using LoginDBRepo.Interfaces;
+using LoginDBRepo.Repositories;
 using LoginDBServices.Interfaces;
 using LoginDBServices.Interfaces.Modules;
 using LoginDBServices.Models.DTOs;
@@ -18,7 +20,10 @@ builder.Services.AddDbContext<LoginDBContext>();
 
 // Services Business Logic Layer
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountRolRepository, AccountRolRepository>();
+
 // Auth Conf
 builder.Services.AddScoped<IGenerateWebTokenService, GenerateWebTokenService>();
 

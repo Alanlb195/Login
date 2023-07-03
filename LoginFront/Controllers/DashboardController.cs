@@ -1,5 +1,7 @@
 ﻿using LoginDB.Models;
-using LoginDBServices.Interfaces.Modules;
+using LoginDBRepo.Interfaces;
+using LoginDBServices.Interfaces;
+using LoginDBServices.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,51 +10,53 @@ namespace login_12.Controllers
     [Authorize(Roles = "ADMIN")]
     public class DashboardController : Controller
     {
-
-        private readonly IModuleService _moduleService;
-        public DashboardController(IModuleService moduleService)
+        private readonly IUserService _userService;
+        private readonly IRolRepository _rolRepository;
+        public DashboardController(
+            IUserService userService,
+            IRolRepository rolRepository)
         {
-            _moduleService = moduleService;
+            _userService = userService;
+            _rolRepository = rolRepository;
         }
 
 
         // GET: Dashboard
-        [HttpGet] public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index()
         {
             return View();
         }
-        
-        
-        
-        
+
+
+
+
         // GET: Dashboard/Register
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            var modules = await _moduleService.GetActiveModules();
+            List<Rol> roles = await _rolRepository.GetAllRoles();
+            ViewBag.Roles = roles;
+            return View();
+        }
 
-
-            foreach (var module in modules)
+        // POST: Dashboard/Register
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterAccountRequest request)
+        {
+            if (!ModelState.IsValid)
             {
-                // Crear un objeto que contenga la lista de módulos
-                var model = new RegisterViewModel
-                {
-                    name = module.Name
-                };
-                return View(model);
+                List<Rol> roles = await _rolRepository.GetAllRoles();
+                ViewBag.Roles = roles;
+                return View(request);
             }
 
-            return View();
+            await _userService.AddNewUser(request);
+            return View("Index", "Dashboard");
+
         }
 
 
 
-
     }
-}
-
-
-public class RegisterViewModel
-{
-    public string name { get; set; }
 }

@@ -31,7 +31,7 @@ namespace LoginDBRepo.Migrations
                     IdModule = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,32 +78,6 @@ namespace LoginDBRepo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "RolModule",
-                columns: table => new
-                {
-                    IdRolModule = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdRol = table.Column<int>(type: "int", nullable: false),
-                    IdModule = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RolModule", x => x.IdRolModule);
-                    table.ForeignKey(
-                        name: "FK_RolModule_Module_IdModule",
-                        column: x => x.IdModule,
-                        principalTable: "Module",
-                        principalColumn: "IdModule",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RolModule_Rol_IdRol",
-                        column: x => x.IdRol,
-                        principalTable: "Rol",
-                        principalColumn: "IdRol",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRol_IdAccount",
                 table: "AccountRol",
@@ -113,16 +87,6 @@ namespace LoginDBRepo.Migrations
                 name: "IX_AccountRol_IdRol",
                 table: "AccountRol",
                 column: "IdRol");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RolModule_IdModule",
-                table: "RolModule",
-                column: "IdModule");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RolModule_IdRol",
-                table: "RolModule",
-                column: "IdRol");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -131,13 +95,10 @@ namespace LoginDBRepo.Migrations
                 name: "AccountRol");
 
             migrationBuilder.DropTable(
-                name: "RolModule");
+                name: "Module");
 
             migrationBuilder.DropTable(
                 name: "Account");
-
-            migrationBuilder.DropTable(
-                name: "Module");
 
             migrationBuilder.DropTable(
                 name: "Rol");

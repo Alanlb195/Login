@@ -1,6 +1,7 @@
 ﻿using LoginDB.Models;
 using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoginDBRepo.Repositories
 {
@@ -12,32 +13,32 @@ namespace LoginDBRepo.Repositories
             dbContext = loginDBContext;
         }
 
-        public Account GetUserById(int userId)
+        public async Task<Account?> GetUserById(int userId)
         {
-            return dbContext.Account.FirstOrDefault(u => u.IdAccount == userId);
+            return await dbContext.Account.FirstOrDefaultAsync(u => u.IdAccount == userId);
         }
 
-        public List<Account> GetAllUsers()
+        public async Task<List<Account>> GetAllUsers()
         {
-            return dbContext.Account.ToList();
+            return await dbContext.Account.ToListAsync();
         }
 
-        public void AddUser (Account user)
+        public async Task AddUser (Account user)
         {
             dbContext.Account.Add(user);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void UpdateUser (Account user)
+        public async Task UpdateUser (Account user)
         {
             dbContext.Account.Update(user);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void DeleteUser (Account user)
+        public async Task DeleteUser (Account user)
         {
             dbContext.Account.Remove(user);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
     }

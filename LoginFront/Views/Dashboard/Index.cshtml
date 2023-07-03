@@ -1,13 +1,37 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Bienvenido al Dashboard</h1>
+<h1 class="text-center">Bienvenido al Dashboard</h1>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <a asp-action="Register" asp-controller="Dashboard" class="btn btn-dark d-block mx-auto mb-4">
+            <img src="https://cdn.pixabay.com/photo/2015/01/28/22/16/workplace-615375_1280.jpg" class="img-fluid">
+            <p class="text-center">Cuenta Nueva</p>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-action="Register" asp-controller="Dashboard" class="btn btn-dark d-block mx-auto mb-4">
+            <img src="https://cdn.pixabay.com/photo/2015/12/03/22/15/tablet-1075790_1280.jpg" class="img-fluid">
+            <p class="text-center">Nuevo Módulo</p>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-action="Register" asp-controller="Dashboard" class="btn btn-dark d-block mx-auto mb-4">
+            <img src="https://cdn.pixabay.com/photo/2017/11/07/09/06/man-2926089_1280.jpg" class="img-fluid">
+            <p class="text-center">Nuevo Perfil de Usuario</p>
+        </a>
+    </div>
+
+</div>
 
 
-<p>Página solo para administradores</p>
-
-<a class="btn btn-primary" asp-action="Register" asp-controller="Dashboard">Registrar una nueva cuenta</a>
-
-
+<style>
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>

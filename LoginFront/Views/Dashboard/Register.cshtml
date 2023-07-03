@@ -1,4 +1,4 @@
-﻿@model LoginDBServices.Models.DTOs.RegisterAccount;
+﻿@model LoginDBServices.Models.DTOs.RegisterAccountRequest;
 
 
 @{
@@ -6,9 +6,9 @@
 }
 
 <div class="row mt-5 justify-content-center">
-    <div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="col-sm-12 col-md-6">
         <h1 class="text-center">Registro</h1>
-        <form asp-action="Index" method="post">
+        <form asp-action="Register" method="post">
 
             <div class="form-group">
                 <label asp-for="Name"></label>
@@ -16,20 +16,23 @@
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-            @*perfil - Desplegar todos los Modulos con el attribute isActive = true*@
-            <div class="form-group">
-                <label asp-for="IdRoles"></label>
-                
-                <select multiple class="form-control" id="mySelect">
-                    
 
-                    <option value="">Valor 1</option>
+            <label asp-for="IdRoles"></label>
+            <select class="form-select form-control" multiple name="IdRoles" asp-for="IdRoles">
+                @if (ViewBag.Roles != null)
+                {
+                    foreach (var role in ViewBag.Roles)
+                    {
+                        <option value="@role.IdRol">@role.Name</option>
+                    }
+                }
+                else
+                {
+                    <h2>Al parecer no hay roles en la base de datos</h2>
+                }
+            </select>
+            <span class="text-danger" asp-validation-for="IdRoles"></span>
 
-
-
-                </select>
-
-            </div>
 
 
             <div class="form-group">
@@ -40,9 +43,9 @@
 
             <div class="form-group">
                 <label asp-for="IsActive"></label>
-                <select class="form-control">
-                    <option value="True">True</option>
-                    <option value="False">False</option>
+                <select class="form-control" asp-for="IsActive">
+                    <option value="True">Activado</option>
+                    <option value="False">Inactivo</option>
                 </select>
                 <span class="text-danger" asp-validation-for="IsActive"></span>
             </div>
@@ -59,9 +62,7 @@
                 <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
             </div>
 
-
-
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            <button type="submit" class="btn btn-primary btn-block">Agregar</button>
         </form>
     </div>
 </div>

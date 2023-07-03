@@ -19,7 +19,6 @@ namespace LoginDBRepo.DBContext
         public DbSet<Account> Account { get; set; }
         public DbSet<AccountRol> AccountRol { get; set; }
         public DbSet<Module> Module { get; set; }
-        public DbSet<RolModule> RolModule { get; set; }
 
         // Override names
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,7 +27,6 @@ namespace LoginDBRepo.DBContext
             modelBuilder.Entity<Account>().ToTable("Account");
             modelBuilder.Entity<AccountRol>().ToTable("AccountRol");
             modelBuilder.Entity<Module>().ToTable("Module");
-            modelBuilder.Entity<RolModule>().ToTable("RolModule");
         }
 
         // DB Configuration

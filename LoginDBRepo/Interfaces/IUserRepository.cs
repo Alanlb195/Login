@@ -4,10 +4,10 @@ namespace LoginDBRepo.Interfaces
 {
     public interface IUserRepository
     {
-        Account GetUserById(int userId);
-        List<Account> GetAllUsers();
-        void AddUser(Account user);
-        void UpdateUser(Account user);
-        void DeleteUser(Account user);
+        Task<Account?> GetUserById(int userId);
+        Task<List<Account>> GetAllUsers();
+        Task AddUser(Account user);
+        Task UpdateUser(Account user);
+        Task DeleteUser(Account user);
     }
 }

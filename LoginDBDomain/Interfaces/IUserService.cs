@@ -5,5 +5,6 @@ namespace LoginDBServices.Interfaces
     public interface IUserService
     {
         Task<UserResponse?> Auth(AuthRequest model);
+        Task AddNewUser(RegisterAccountRequest request);
     }
 }

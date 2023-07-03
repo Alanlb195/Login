@@ -1,15 +1,25 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-public class Encrypt
+
+namespace LoginDBServices.Tools
 {
-    public static string GetSHA256(string str)
+    public class Encrypt
     {
-        SHA256 sha256 = SHA256.Create();
-        ASCIIEncoding encoding = new ASCIIEncoding();
-        byte[]? stream = null;
-        StringBuilder sb = new StringBuilder();
-        stream = sha256.ComputeHash(encoding.GetBytes(str));
-        for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
-        return sb.ToString();
+        public static string EncryptToSHA256(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = sha256.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes)
+                {
+                    sb.Append(b.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+        }
     }
 }

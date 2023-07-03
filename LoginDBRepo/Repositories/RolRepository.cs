@@ -1,6 +1,7 @@
 ﻿using LoginDB.Models;
 using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoginDBRepo.Repositories
 {
@@ -12,32 +13,32 @@ namespace LoginDBRepo.Repositories
             dbContext = loginDBContext;
         }
 
-        public Rol GetRolById(int rolId)
+        public async Task<Rol?> GetRolById(int rolId)
         {
-            return dbContext.Rol.FirstOrDefault(r => r.IdRol == rolId);
+            return await dbContext.Rol.FirstOrDefaultAsync(r => r.IdRol == rolId);
         }
 
-        public List<Rol> GetAllRoles()
+        public async Task<List<Rol>> GetAllRoles()
         {
-            return dbContext.Rol.ToList();
+            return await dbContext.Rol.ToListAsync();
         }
 
-        public void AddRol(Rol rol)
+        public async Task AddRol(Rol rol)
         {
-            dbContext.Rol.Add(rol);
-            dbContext.SaveChanges();
+            await dbContext.Rol.AddAsync(rol);
+            await dbContext.SaveChangesAsync();
         }
 
-        public void UpdateRol(Rol rol)
+        public async Task UpdateRol(Rol rol)
         {
             dbContext.Rol.Update(rol);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void DeleteRol(Rol rol)
+        public async Task DeleteRol(Rol rol)
         {
             dbContext.Rol.Remove(rol);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
     }
 }
