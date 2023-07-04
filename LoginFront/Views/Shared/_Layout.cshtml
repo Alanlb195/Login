@@ -12,47 +12,14 @@
 
     @if (User.Identity.IsAuthenticated)
     {
+
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav flex-grow-1">
-                            
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                            </li>
-
-
-                            <li class="nav-item ml-auto">
-                                <form id="logoutForm" asp-controller="Login" asp-action="Logout" method="post">
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
-                                </form>
-                            </li>
-
-                        </ul>
-                    </div>
-
-
-
-
-
-                </div>
-            </nav>
+            @{
+                Html.RenderPartial("_Navbar");
+            }
         </header>
-    }
 
+    }
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -61,14 +28,12 @@
     </div>
 
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2023 - Login And Management of Modules Project
-            </div>
-        </footer>
-    }
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Login And Management of Modules Project
+        </div>
+    </footer>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -77,4 +42,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
 </html>

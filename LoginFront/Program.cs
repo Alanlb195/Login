@@ -2,10 +2,8 @@ using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
 using LoginDBRepo.Repositories;
 using LoginDBServices.Interfaces;
-using LoginDBServices.Interfaces.Modules;
 using LoginDBServices.Models.DTOs;
 using LoginDBServices.Services;
-using LoginDBServices.Services.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -19,14 +17,24 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<LoginDBContext>();
 
 // Services Business Logic Layer
-builder.Services.AddScoped<IUserService, UserService>();
+
+// Services to Create a Rol
 builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<IModuleRolRepository, ModuleRolRepository>();
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+
+// To get all the modules related to a specified user
+builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<IValidateTokenService, ValidateTokenService>();
+
+
+// To manage Login Services
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRolRepository, AccountRolRepository>();
-
-// Auth Conf
 builder.Services.AddScoped<IGenerateWebTokenService, GenerateWebTokenService>();
-
+// Auth Conf
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
 builder.Services.AddAuthentication(options =>
 {
@@ -76,9 +84,17 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "navbar",
+        pattern: "Navbar",
+        defaults: new { controller = "Navbar", action = "Index" }
+    );
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

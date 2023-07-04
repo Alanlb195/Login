@@ -41,5 +41,12 @@ namespace LoginDBRepo.Repositories
             dbContext.Module.Remove(module);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> ModuleExistsAsync(string moduleName)
+        {
+            // Verificar si existe un módulo con el mismo nombre en la base de datos
+            return await dbContext.Module.AnyAsync(m => m.Name == moduleName);
+        }
+
     }
 }

@@ -7,7 +7,7 @@
 
 <div class="row mt-5 justify-content-center">
     <div class="col-sm-12 col-md-6">
-        <h1 class="text-center">Registro</h1>
+        <h1 class="text-center">Cuenta nueva</h1>
         <form asp-action="Register" method="post">
 
             <div class="form-group">
@@ -19,7 +19,7 @@
 
             <label asp-for="IdRoles"></label>
             <select class="form-select form-control" multiple name="IdRoles" asp-for="IdRoles">
-                @if (ViewBag.Roles != null)
+                @if (ViewBag.Roles != null && ViewBag.Roles.Count > 0)
                 {
                     foreach (var role in ViewBag.Roles)
                     {
@@ -28,7 +28,7 @@
                 }
                 else
                 {
-                    <h2>Al parecer no hay roles en la base de datos</h2>
+                    <option>Al parecer no hay roles en la base de datos, agrega uno</option>
                 }
             </select>
             <span class="text-danger" asp-validation-for="IdRoles"></span>

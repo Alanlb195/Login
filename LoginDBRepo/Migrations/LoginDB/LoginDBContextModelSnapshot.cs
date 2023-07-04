@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LoginDBRepo.Migrations
+namespace LoginDBRepo.Migrations.LoginDB
 {
     [DbContext(typeof(LoginDBContext))]
     partial class LoginDBContextModelSnapshot : ModelSnapshot
@@ -92,6 +92,29 @@ namespace LoginDBRepo.Migrations
                     b.ToTable("Module", (string)null);
                 });
 
+            modelBuilder.Entity("LoginDB.Models.ModuleRol", b =>
+                {
+                    b.Property<int>("IdModuleRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdModuleRol"), 1L, 1);
+
+                    b.Property<int>("IdModule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdModuleRol");
+
+                    b.HasIndex("IdModule");
+
+                    b.HasIndex("IdRol");
+
+                    b.ToTable("ModuleRol", (string)null);
+                });
+
             modelBuilder.Entity("LoginDB.Models.Rol", b =>
                 {
                     b.Property<int>("IdRol")
@@ -131,14 +154,40 @@ namespace LoginDBRepo.Migrations
                     b.Navigation("Rol");
                 });
 
+            modelBuilder.Entity("LoginDB.Models.ModuleRol", b =>
+                {
+                    b.HasOne("LoginDB.Models.Module", "Module")
+                        .WithMany("ModuleRols")
+                        .HasForeignKey("IdModule")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LoginDB.Models.Rol", "Rol")
+                        .WithMany("ModuleRols")
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Rol");
+                });
+
             modelBuilder.Entity("LoginDB.Models.Account", b =>
                 {
                     b.Navigation("AccountsRoles");
                 });
 
+            modelBuilder.Entity("LoginDB.Models.Module", b =>
+                {
+                    b.Navigation("ModuleRols");
+                });
+
             modelBuilder.Entity("LoginDB.Models.Rol", b =>
                 {
                     b.Navigation("AccountsRols");
+
+                    b.Navigation("ModuleRols");
                 });
 #pragma warning restore 612, 618
         }

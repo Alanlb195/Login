@@ -9,5 +9,6 @@ namespace LoginDBRepo.Interfaces
         Task AddModuleAsync(Module module);
         Task UpdateModuleAsync(Module module);
         Task DeleteModuleAsync(Module module);
+        Task<bool> ModuleExistsAsync(string moduleName);
     }
 }

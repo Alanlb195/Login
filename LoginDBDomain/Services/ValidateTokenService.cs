@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace LoginDBServices.Services
@@ -16,14 +17,13 @@ namespace LoginDBServices.Services
         }
 
         // Validate The Token
-        public string ValidateToken(string token)
+        public (string userName, string[] roles) ValidateToken(string token)
         {
             if (token == null)
-                return null;
-
+                return (null, null);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Convert.ToString(_configuration["JwtKey"]));
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
 
             try
             {
@@ -36,17 +36,16 @@ namespace LoginDBServices.Services
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
-
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var jti = jwtToken.Claims.First(claim => claim.Type == "jti").Value;
-                var userName = jwtToken.Claims.First(sub => sub.Type == "sub").Value;
+                var jti = jwtToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Jti).Value;
+                var userName = jwtToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
+                var roles = jwtToken.Claims.Where(claim => claim.Type == ClaimTypes.Role).Select(claim => claim.Value).ToArray();
 
-                return userName;
+                return (userName, roles);
             }
-
             catch
             {
-                return null;
+                return (null, null);
             }
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace login_12.Controllers
 {
-    [Authorize(Roles = "ADMIN")]
+    //[Authorize(Roles = "ADMIN")]
     public class DashboardController : Controller
     {
         private readonly IUserService _userService;
@@ -26,6 +26,13 @@ namespace login_12.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult RegisterRole()
+        {
+            return RedirectToAction("Index", "Roles");
         }
 
 

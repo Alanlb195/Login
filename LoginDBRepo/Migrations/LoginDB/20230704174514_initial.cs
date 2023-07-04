@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace LoginDBRepo.Migrations
+namespace LoginDBRepo.Migrations.LoginDB
 {
     public partial class initial : Migration
     {
@@ -78,6 +78,32 @@ namespace LoginDBRepo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ModuleRol",
+                columns: table => new
+                {
+                    IdModuleRol = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdModule = table.Column<int>(type: "int", nullable: false),
+                    IdRol = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModuleRol", x => x.IdModuleRol);
+                    table.ForeignKey(
+                        name: "FK_ModuleRol_Module_IdModule",
+                        column: x => x.IdModule,
+                        principalTable: "Module",
+                        principalColumn: "IdModule",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModuleRol_Rol_IdRol",
+                        column: x => x.IdRol,
+                        principalTable: "Rol",
+                        principalColumn: "IdRol",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRol_IdAccount",
                 table: "AccountRol",
@@ -87,6 +113,16 @@ namespace LoginDBRepo.Migrations
                 name: "IX_AccountRol_IdRol",
                 table: "AccountRol",
                 column: "IdRol");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleRol_IdModule",
+                table: "ModuleRol",
+                column: "IdModule");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleRol_IdRol",
+                table: "ModuleRol",
+                column: "IdRol");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -95,10 +131,13 @@ namespace LoginDBRepo.Migrations
                 name: "AccountRol");
 
             migrationBuilder.DropTable(
-                name: "Module");
+                name: "ModuleRol");
 
             migrationBuilder.DropTable(
                 name: "Account");
+
+            migrationBuilder.DropTable(
+                name: "Module");
 
             migrationBuilder.DropTable(
                 name: "Rol");

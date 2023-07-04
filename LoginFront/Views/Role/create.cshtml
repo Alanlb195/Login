@@ -1,0 +1,50 @@
+﻿@model LoginDBServices.Models.DTOs.RegisterRol;
+
+<h1 class="text-center">
+    Create Role
+</h1>
+
+<div class="row justify-content-center">
+
+    <div class="col-sm-12 col-md-6">
+            
+    <form asp-action="Create" method="post">
+
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsActive"></label>
+            <select class="form-select form-control" name="IsActive" asp-for="IsActive">
+                <option value="True">Active</option>
+                <option value="False">Inactive</option>
+            </select>
+            <span class="text-danger" asp-validation-for="IsActive"></span>
+        </div>
+
+
+        <label asp-for="IdModule"></label>
+        <select class="form-select form-control" multiple name="IdModule" asp-for="IdModule">
+            @if (ViewBag.Modules != null && ViewBag.Modules.Count > 0)
+            {
+                foreach (var module in ViewBag.Modules)
+                {
+                    <option value="@module.IdModule">@module.Name</option>
+                }
+            }
+            else
+            {
+                <option>Al parecer no hay roles en la base de datos, agrega uno</option>
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="IdModule"></span>
+
+        <button class="btn btn-success mt-4 btn-block">Agregar Rol</button>
+    </form>
+
+    </div>
+
+</div>

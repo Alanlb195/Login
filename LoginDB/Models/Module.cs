@@ -10,6 +10,6 @@ namespace LoginDB.Models
         public int IdModule { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-        public string Controller { get; set; }
+        public ICollection <ModuleRol> ModuleRols { get; set; }
     }
 }
