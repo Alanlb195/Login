@@ -1,3 +1,12 @@
-﻿@{
+﻿@using LoginDBServices.Interfaces
+@using LoginFront.Tools
+@{
     Layout = "_Layout";
+    var moduleService = Context.RequestServices.GetService<IModuleService>();
+    
+    var moduleUtility = new ModuleUtility(moduleService);
+
+    var modules = await moduleUtility.GetModulesByUserAccess(ViewBag.Token);
+    
+    ViewBag.Modules = modules;
 }

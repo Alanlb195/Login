@@ -1,14 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace LoginDBServices.Models.DTOs
 {
     public class AuthRequest
     {
-        [Required]
-        [EmailAddress(ErrorMessage = "Email Inválido")]
+        [DisplayName("Email")]
+        [Required(ErrorMessage ="Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
-        
-        [Required]
+
+        [DisplayName("Contraseña")]
+        [Required(ErrorMessage ="Password is required")]
         public string Password { get; set; }
     }
 }

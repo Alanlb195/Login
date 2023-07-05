@@ -16,23 +16,23 @@
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-
-            <label asp-for="IdRoles"></label>
-            <select class="form-select form-control" multiple name="IdRoles" asp-for="IdRoles">
-                @if (ViewBag.Roles != null && ViewBag.Roles.Count > 0)
-                {
-                    foreach (var role in ViewBag.Roles)
+            <div class="form-group">
+                <label asp-for="IdRoles"></label>
+                <select class="form-control">
+                    @if (ViewBag.Roles != null && ViewBag.Roles.Count > 0)
                     {
-                        <option value="@role.IdRol">@role.Name</option>
+                        foreach (var role in ViewBag.Roles)
+                        {
+                            <option value="@role.IdRol">@role.Name</option>
+                        }
                     }
-                }
-                else
-                {
-                    <option>Al parecer no hay roles en la base de datos, agrega uno</option>
-                }
-            </select>
-            <span class="text-danger" asp-validation-for="IdRoles"></span>
-
+                    else
+                    {
+                        <option>Al parecer no hay roles en la base de datos, agrega uno</option>
+                    }
+                </select>
+                <span class="text-danger" asp-validation-for="IdRoles"></span>
+            </div>
 
 
             <div class="form-group">

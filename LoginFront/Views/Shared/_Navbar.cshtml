@@ -19,7 +19,7 @@
                     foreach (var module in ViewBag.Modules)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="@module.Name" asp-action="@module.Name">@module.Name</a>
+                            <a class="nav-link text-light" asp-controller="@module.Name.ToLower()" asp-action="Index">@module.Name.ToLower()</a>
                         </li>
                     }
                 }

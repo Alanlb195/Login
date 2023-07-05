@@ -3,7 +3,9 @@
     ViewData["Title"] = "Login";
 }
 
-@ViewBag.Message
+<div class="text-danger mt-2" style="position: absolute">
+    @ViewBag.Message
+</div>
 
 <div class="row mt-5 justify-content-center">
     <div class="col-sm-12 col-md-6 col-lg-4">
@@ -15,15 +17,14 @@
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input type="email" class="form-control" asp-for="Email">
+                <span asp-validation-for="Email"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Password"></label>
                 <input type="password" class="form-control" asp-for="Password">
+                <span class="text-danger" asp-validation-for="Password"></span>
             </div>
-
-            
-            <div asp-validation-summary="All" class="text-danger"></div>
 
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </form>

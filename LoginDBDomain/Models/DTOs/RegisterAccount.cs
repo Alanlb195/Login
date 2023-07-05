@@ -10,9 +10,9 @@ namespace LoginDBServices.Models.DTOs
         public string Name { get; set; }
 
 
-        [DisplayName("Lista de roles, selecciona uno o varios para el nuevo usuario")]
-        [Required(ErrorMessage = "Selecciona al menos un rol")]
-        public int[] IdRoles { get; set; }
+        [DisplayName("Lista de roles, selecciona uno para el nuevo usuario")]
+        [Required(ErrorMessage = "Selecciona un rol")]
+        public int IdRoles { get; set; }
 
 
         [DisplayName("Usuario Activado o Inactivo")]

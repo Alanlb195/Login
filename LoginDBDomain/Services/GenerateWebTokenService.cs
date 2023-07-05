@@ -15,19 +15,16 @@ namespace LoginDBServices.Services
         {
             _configuration = configuration;
         }
-        public string GenerateWebToken(Account usuario, List<string> roles)
+        public string GenerateWebToken(Account usuario, string rol)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, usuario.Name)
+                new Claim(ClaimTypes.NameIdentifier, usuario.Name),
+                new Claim(ClaimTypes.Role, rol)
             };
 
-            roles.ForEach(role =>
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            });
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LoginFront.Controllers
 {
-    [Authorize(Roles ="VENTAS")]
+    //[Authorize(Roles ="VENTAS")]
     public class VentasController : Controller
     {
         // GET: VentasController

@@ -56,18 +56,18 @@ namespace LoginDBServices.Services
             var accountRoleIds = await db.AccountRol
                 .Where(a => a.IdAccount == account.IdAccount)
                 .Select(a => a.IdRol)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
-            var roleNames = await db.Rol
+            var rolName = await db.Rol
                 .Where(r => accountRoleIds.Contains(r.IdRol))
                 .Select(r => r.Name)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
             var userResponse = new UserResponse
             {
                 Name = account.Name,
                 Email = account.Email,
-                Token = _generateWebTokenService.GenerateWebToken(account, roleNames)
+                Token = _generateWebTokenService.GenerateWebToken(account, rolName)
             };
 
             return userResponse;
@@ -94,14 +94,11 @@ namespace LoginDBServices.Services
             await _userRepository.AddUser(newUser);
 
             // Asignar roles al usuario
-            foreach (var roleId in request.IdRoles)
-            {
-                var rol = await _iRolRepository.GetRolById(roleId);
+            var rol = await _iRolRepository.GetRolById(request.IdRoles);
 
-                if (rol != null)
-                {
-                    await _accountRolRepository.AssignRolToAccount(newUser.IdAccount, rol.IdRol);
-                }
+            if (rol != null)
+            {
+                await _accountRolRepository.AssignRolToAccount(newUser.IdAccount, rol.IdRol);
             }
         }
 

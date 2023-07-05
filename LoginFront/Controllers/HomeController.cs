@@ -1,4 +1,5 @@
 ﻿using login_12.Models;
+using LoginDB.Models;
 using LoginDBServices.Interfaces;
 using LoginDBServices.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -8,19 +9,22 @@ using System.Diagnostics;
 
 namespace login_12.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IModuleService _moduleService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            IModuleService moduleService)
         {
             _logger = logger;
+            _moduleService = moduleService;
         }
 
         // GET: Home
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userDataCookie = HttpContext.Request.Cookies["UserData"];
 
