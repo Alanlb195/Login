@@ -1,6 +1,7 @@
 ﻿using LoginDB.Models;
 using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoginDBRepo.Repositories
 {
@@ -23,6 +24,11 @@ namespace LoginDBRepo.Repositories
 
             await _loginDBContext.ModuleRols.AddAsync(moduleRol);
             await _loginDBContext.SaveChangesAsync();
+        }
+
+        public async Task<List<ModuleRol>> GetIdModuleRolByIdRol(int idRol)
+        {
+            return await _loginDBContext.ModuleRols.Where(id => id.IdRol == idRol).ToListAsync();
         }
     }
 }

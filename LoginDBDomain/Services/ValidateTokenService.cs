@@ -16,11 +16,15 @@ namespace LoginDBServices.Services
             _configuration = configuration;
         }
 
-        // Validate The Token
-        public (string userName, string[] roles) ValidateToken(string token)
+        /// <summary>
+        /// Validate The Token, Return the Rol asociated at this user Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public string ValidateToken(string token)
         {
             if (token == null)
-                return (null, null);
+                return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
@@ -39,13 +43,13 @@ namespace LoginDBServices.Services
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var jti = jwtToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Jti).Value;
                 var userName = jwtToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
-                var roles = jwtToken.Claims.Where(claim => claim.Type == ClaimTypes.Role).Select(claim => claim.Value).ToArray();
+                var roleName = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
 
-                return (userName, roles);
+                return roleName;
             }
             catch
             {
-                return (null, null);
+                return null;
             }
         }
     }

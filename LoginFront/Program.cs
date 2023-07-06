@@ -5,6 +5,8 @@ using LoginDBServices.Interfaces;
 using LoginDBServices.Models.DTOs;
 using LoginDBServices.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,7 +15,15 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build()));
+    options.Filters.Add(new AllowAnonymousFilter());
+});
+
+
 builder.Services.AddDbContext<LoginDBContext>();
 
 // Services Business Logic Layer
@@ -32,7 +42,6 @@ builder.Services.AddScoped<IValidateTokenService, ValidateTokenService>();
 // To manage Login Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAccountRolRepository, AccountRolRepository>();
 builder.Services.AddScoped<IGenerateWebTokenService, GenerateWebTokenService>();
 // Auth Conf
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims

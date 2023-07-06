@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LoginDBRepo.Migrations.LoginDB
+namespace LoginDBRepo.Migrations
 {
     [DbContext(typeof(LoginDBContext))]
-    [Migration("20230704174514_initial")]
+    [Migration("20230706165813_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace LoginDBRepo.Migrations.LoginDB
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -48,30 +51,9 @@ namespace LoginDBRepo.Migrations.LoginDB
 
                     b.HasKey("IdAccount");
 
-                    b.ToTable("Account", (string)null);
-                });
-
-            modelBuilder.Entity("LoginDB.Models.AccountRol", b =>
-                {
-                    b.Property<int>("IdAccountRol")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAccountRol"), 1L, 1);
-
-                    b.Property<int>("IdAccount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdRol")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdAccountRol");
-
-                    b.HasIndex("IdAccount");
-
                     b.HasIndex("IdRol");
 
-                    b.ToTable("AccountRol", (string)null);
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("LoginDB.Models.Module", b =>
@@ -137,21 +119,13 @@ namespace LoginDBRepo.Migrations.LoginDB
                     b.ToTable("Rol", (string)null);
                 });
 
-            modelBuilder.Entity("LoginDB.Models.AccountRol", b =>
+            modelBuilder.Entity("LoginDB.Models.Account", b =>
                 {
-                    b.HasOne("LoginDB.Models.Account", "Account")
-                        .WithMany("AccountsRoles")
-                        .HasForeignKey("IdAccount")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("LoginDB.Models.Rol", "Rol")
-                        .WithMany("AccountsRols")
+                        .WithMany()
                         .HasForeignKey("IdRol")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
 
                     b.Navigation("Rol");
                 });
@@ -175,11 +149,6 @@ namespace LoginDBRepo.Migrations.LoginDB
                     b.Navigation("Rol");
                 });
 
-            modelBuilder.Entity("LoginDB.Models.Account", b =>
-                {
-                    b.Navigation("AccountsRoles");
-                });
-
             modelBuilder.Entity("LoginDB.Models.Module", b =>
                 {
                     b.Navigation("ModuleRols");
@@ -187,8 +156,6 @@ namespace LoginDBRepo.Migrations.LoginDB
 
             modelBuilder.Entity("LoginDB.Models.Rol", b =>
                 {
-                    b.Navigation("AccountsRols");
-
                     b.Navigation("ModuleRols");
                 });
 #pragma warning restore 612, 618

@@ -4,6 +4,6 @@ namespace LoginDBServices.Interfaces
 {
     public interface IGenerateWebTokenService
     {
-        string GenerateWebToken(Account usuario, string roles);
+        string GenerateWebToken(Account usuario, Rol rol);
     }
 }

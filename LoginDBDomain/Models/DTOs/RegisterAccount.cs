@@ -12,7 +12,7 @@ namespace LoginDBServices.Models.DTOs
 
         [DisplayName("Lista de roles, selecciona uno para el nuevo usuario")]
         [Required(ErrorMessage = "Selecciona un rol")]
-        public int IdRoles { get; set; }
+        public int IdRol { get; set; }
 
 
         [DisplayName("Usuario Activado o Inactivo")]
@@ -28,7 +28,8 @@ namespace LoginDBServices.Models.DTOs
 
         [DisplayName("Contraseña")]
         [Required(ErrorMessage = "La contraseña es obligatoria")]
-        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", ErrorMessage = "La contraseña debe tener mínimo 8 caracteres, al menos una letra, un número y un carácter especial.")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            ErrorMessage = "La contraseña debe tener mínimo 8 caracteres, al menos una letra, un número y un carácter especial.")]
         public string Password { get; set; }
 
         [DisplayName("Confirmar contraseña")]

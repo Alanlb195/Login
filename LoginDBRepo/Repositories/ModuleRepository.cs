@@ -14,7 +14,7 @@ namespace LoginDBRepo.Repositories
             dbContext = loginDBContext;
         }
 
-        public async Task<Module?> GetModuleByIdAsync(int moduleId)
+        public async Task<Module> GetModuleByIdAsync(int moduleId)
         {
             return await dbContext.Module.FirstOrDefaultAsync(m => m.IdModule == moduleId);
         }

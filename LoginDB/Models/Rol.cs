@@ -11,7 +11,6 @@ namespace LoginDB.Models
         public string Name { get; set; }
         public bool isActive { get; set; }
 
-        public virtual ICollection<AccountRol> AccountsRols { get; set; }
         public virtual ICollection<ModuleRol> ModuleRols { get; set; }
     }
 }

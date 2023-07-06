@@ -1,5 +1,4 @@
-﻿// Tengo 3 tablas, Dos modelos y una tabla que las conecta a ambas.
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoginDB.Models
@@ -14,6 +13,8 @@ namespace LoginDB.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<AccountRol> AccountsRoles { get; set; }
+        public int IdRol { get; set; }
+        [ForeignKey("IdRol")]
+        public Rol Rol { get; set; }
     }
 }

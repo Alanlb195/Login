@@ -17,8 +17,8 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="IdRoles"></label>
-                <select class="form-control">
+                <label asp-for="IdRol"></label>
+                <select class="form-control" asp-for="IdRol">
                     @if (ViewBag.Roles != null && ViewBag.Roles.Count > 0)
                     {
                         foreach (var role in ViewBag.Roles)
@@ -31,7 +31,7 @@
                         <option>Al parecer no hay roles en la base de datos, agrega uno</option>
                     }
                 </select>
-                <span class="text-danger" asp-validation-for="IdRoles"></span>
+                <span class="text-danger" asp-validation-for="IdRol"></span>
             </div>
 
 

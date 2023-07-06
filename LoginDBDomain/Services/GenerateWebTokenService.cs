@@ -15,14 +15,14 @@ namespace LoginDBServices.Services
         {
             _configuration = configuration;
         }
-        public string GenerateWebToken(Account usuario, string rol)
+        public string GenerateWebToken(Account usuario, Rol rol)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, usuario.Name),
-                new Claim(ClaimTypes.Role, rol)
+                new Claim(ClaimTypes.Role, rol.Name)
             };
 
 

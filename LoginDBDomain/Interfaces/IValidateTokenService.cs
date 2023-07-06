@@ -2,6 +2,6 @@
 {
     public interface IValidateTokenService
     {
-        public (string userName, string[] roles) ValidateToken(string token);
+        public string ValidateToken(string token);
     }
 }

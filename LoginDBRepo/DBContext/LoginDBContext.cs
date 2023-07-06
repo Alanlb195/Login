@@ -17,7 +17,6 @@ namespace LoginDBRepo.DBContext
 
         public DbSet<Rol> Rol { get; set; }
         public DbSet<Account> Account { get; set; }
-        public DbSet<AccountRol> AccountRol { get; set; }
         public DbSet<Module> Module { get; set; }
         public DbSet<ModuleRol> ModuleRols { get; set; }
 
@@ -27,7 +26,6 @@ namespace LoginDBRepo.DBContext
             modelBuilder.Entity<Rol>().ToTable("Rol");
 
             modelBuilder.Entity<Account>().ToTable("Account");
-            modelBuilder.Entity<AccountRol>().ToTable("AccountRol");
 
             modelBuilder.Entity<Module>().ToTable("Module");
             modelBuilder.Entity<ModuleRol>().ToTable("ModuleRol");

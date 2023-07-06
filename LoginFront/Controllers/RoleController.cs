@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LoginFront.Controllers
 {
 
-    //[Authorize(Roles ="ADMIN")]
+    [Authorize(Roles = "ADMIN")]
     public class RoleController : Controller
     {
         private readonly IModuleRepository _moduleRepository;
@@ -30,7 +30,7 @@ namespace LoginFront.Controllers
         public async Task<ActionResult> Create()
         {
             List<Module> modules = await _moduleRepository.GetAllModulesAsync();
-            ViewBag.Modules = modules;
+            ViewBag.GeneralModules = modules;
 
             return View();
         }
@@ -41,7 +41,7 @@ namespace LoginFront.Controllers
             if (!ModelState.IsValid)
             {
                 List<Module> modules = await _moduleRepository.GetAllModulesAsync();
-                ViewBag.Modules = modules;
+                ViewBag.GeneralModules = modules;
                 return View(request);
             }
 
