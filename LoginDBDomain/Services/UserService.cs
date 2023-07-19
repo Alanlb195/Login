@@ -18,19 +18,22 @@ namespace LoginDBServices.Services
         private readonly IGenerateWebTokenService _generateWebTokenService;
         private readonly IRolRepository _rolRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IModuleService _moduleService;
 
         public UserService(
             IOptions<AppSettings> appSettings,
             IConfiguration configuration,
             IGenerateWebTokenService generateWebToken,
             IRolRepository rolRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IModuleService moduleService)
         {
             _configuration = configuration;
             _appSettings = appSettings.Value;
             _generateWebTokenService = generateWebToken;
             _rolRepository = rolRepository;
             _userRepository = userRepository;
+            _moduleService = moduleService;
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace LoginDBServices.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<UserResponse?> Auth(AuthRequest model)
+        public async Task<UserResponse> Auth(AuthRequest model)
         {
             using var db = new LoginDBContext();
 
@@ -57,18 +60,27 @@ namespace LoginDBServices.Services
 
             var userResponse = CreateUserResponse(account, findRol);
 
-            return userResponse;
+            return await userResponse;
         }
 
-        private UserResponse CreateUserResponse(Account account, Rol findRol)
+        /// <summary>
+        /// Crea una UserResponse (Nombre, Email, JWT y Lista de Modulos)
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="findRol"></param>
+        /// <returns></returns>
+        private async Task<UserResponse> CreateUserResponse(Account account, Rol findRol)
         {
+            string token = _generateWebTokenService.GenerateWebToken(account, findRol);
             return new UserResponse
             {
                 Name = account.Name,
                 Email = account.Email,
-                Token = _generateWebTokenService.GenerateWebToken(account, findRol)
+                Token = token,
+                Modules = await _moduleService.GetModulesByUserAccess(token)
             };
         }
+
 
 
 
@@ -101,8 +113,6 @@ namespace LoginDBServices.Services
             }
 
         }
-
-
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LoginDB.Models;
+using LoginDBServices.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace LoginDBServices.Interfaces
 {
     public interface IModuleService
     {
-        Task<List<Module>> GetModulesByUserAccess(string token);
+        Task<List<ModuleResponse>> GetModulesByUserAccess(string token);
     }
 }

@@ -1,9 +1,11 @@
+using AutoMapper;
 using LoginDBRepo.DBContext;
 using LoginDBRepo.Interfaces;
 using LoginDBRepo.Repositories;
 using LoginDBServices.Interfaces;
 using LoginDBServices.Models.DTOs;
 using LoginDBServices.Services;
+using LoginDBServices.Tools;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -22,6 +24,16 @@ builder.Services.AddControllersWithViews(options =>
         .Build()));
     options.Filters.Add(new AllowAnonymousFilter());
 });
+
+//--------- Mapper configuration ------------------//
+var mapperConfiguration = new MapperConfiguration(m =>
+{
+    m.AddProfile(new MappingProfile()); // Mapper configurations of Business Models > LoginDBServices
+});
+
+IMapper mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddMvc(); //--------- End Mapper Config
 
 
 builder.Services.AddDbContext<LoginDBContext>();

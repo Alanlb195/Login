@@ -5,7 +5,7 @@ namespace LoginDBServices.Models.DTOs
 {
     public class RegisterAccountRequest
     {
-        [DisplayName("Nombre")]
+        [DisplayName("Nombre, solo para: ADMIN, VENTAS, DESARROLLO")]
         [Required(ErrorMessage ="Nombre obligatorio")]
         public string Name { get; set; }
 

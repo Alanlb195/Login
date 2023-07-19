@@ -1,6 +1,8 @@
-﻿using LoginDB.Models;
+﻿using AutoMapper;
+using LoginDB.Models;
 using LoginDBRepo.Interfaces;
 using LoginDBServices.Interfaces;
+using LoginDBServices.Models.DTOs;
 
 namespace LoginDBServices.Services
 {
@@ -10,17 +12,20 @@ namespace LoginDBServices.Services
         private readonly IValidateTokenService _validateTokenService;
         private readonly IRolRepository _rolRepository;
         private readonly IModuleRolRepository _moduleRolRepository;
+        private readonly IMapper _mapper;
 
         public ModuleService(
             IModuleRepository moduleRepository
 ,           IValidateTokenService validateTokenService,
             IRolRepository rolRepository,
-            IModuleRolRepository moduleRolRepository)
+            IModuleRolRepository moduleRolRepository,
+            IMapper mapper)
         {
             _moduleRepository = moduleRepository;
             _validateTokenService = validateTokenService;
             _rolRepository = rolRepository;
             _moduleRolRepository = moduleRolRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -28,11 +33,11 @@ namespace LoginDBServices.Services
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<List<Module>> GetModulesByUserAccess(string token)
+        public async Task<List<ModuleResponse>> GetModulesByUserAccess(string token)
         {
-            List<Module> modules = new List<Module>();
+            List<ModuleResponse> modules = new List<ModuleResponse>();
 
-            //Obtener el rol de la cuenta y validarlo
+            // Valida el token, regresa string rol.name
             var roleName = _validateTokenService.ValidateToken(token);
 
 
@@ -50,18 +55,17 @@ namespace LoginDBServices.Services
             List<ModuleRol> ModuleRol = await _moduleRolRepository.GetIdModuleRolByIdRol(rol.IdRol);
 
 
-            // Solo traera los modulos que estén activados
+            // Solo traera los modulos que estén activados, mapeo de objeto a un DTO
             foreach (var role in ModuleRol)
             {
                 var moduleFound = await _moduleRepository.GetModuleByIdAsync(role.IdModule);
 
                 if (moduleFound.IsActive)
                 {
-                    modules.Add(moduleFound);
+                    var moduleResponse = _mapper.Map<ModuleResponse>(moduleFound);
+                    modules.Add(moduleResponse);
                 }
             }
-
-
             return modules;
         }
     }

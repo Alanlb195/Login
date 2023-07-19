@@ -1,37 +1,32 @@
 ﻿using LoginDB.Models;
 using LoginDBServices.Interfaces;
+using LoginFront.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoginFront.Controllers
 {
+    [Authorize(Roles = "DESARROLLO, ADMIN")]
     public class DesarrolloController : Controller
     {
         private readonly IModuleService _moduleService;
 
-        public DesarrolloController(IModuleService moduleService)
+        public DesarrolloController(
+            IModuleService moduleService)
         {
             _moduleService = moduleService;
         }
 
-        [Authorize(Roles = "DESARROLLO, ADMIN")]
         public async Task<IActionResult> Index()
         {
-            string token = ViewBag.Token;
+            var isActivated = UserDataCookieHelper.IsThisModuleActivated(HttpContext,"DESARROLLO");
 
-            var modules = await _moduleService.GetModulesByUserAccess(token);
-
-            if (modules != null)
+            if (isActivated == false)
             {
-                var desarrolloModule = modules.FirstOrDefault(m => m.Name == "Desarrollo");
-
-                if (desarrolloModule != null && !desarrolloModule.IsActive)
-                {
-                    return View();
-                }
+                return RedirectToAction("Unauthorized", "Home");
             }
 
-            return RedirectToAction("Unauthorized", "Home");
+            return View();
         }
     }
 }

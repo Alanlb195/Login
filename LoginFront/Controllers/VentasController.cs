@@ -1,37 +1,37 @@
 ﻿using LoginDB.Models;
 using LoginDBServices.Interfaces;
+using LoginFront.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoginFront.Controllers
 {
+    [Authorize(Roles = "VENTAS, ADMIN")]
     public class VentasController : Controller
     {
         private readonly IModuleService _moduleService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public VentasController(IModuleService moduleService)
+        public VentasController(
+            IModuleService moduleService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _moduleService = moduleService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        [Authorize(Roles = "VENTAS, ADMIN")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            string token = ViewBag.Token;
+            var isActivated = UserDataCookieHelper.IsThisModuleActivated(HttpContext, "VENTAS");
 
-            var modules = await _moduleService.GetModulesByUserAccess(token);
-
-            if (modules != null)
+            if (isActivated == false)
             {
-                var ventasModule = modules.FirstOrDefault(m => m.Name == "Ventas");
-
-                if (ventasModule != null && !ventasModule.IsActive)
-                {
-                    return View();
-                }
+                return RedirectToAction("Unauthorized", "Home");
             }
-
-            return RedirectToAction("Unauthorized", "Home");
+            return View();
         }
+
+
+
     }
 }

@@ -1,26 +1,22 @@
 ﻿@using LoginDBServices.Interfaces
 @using LoginDBServices.Models.DTOs
-@using LoginFront.Tools
 @using Newtonsoft.Json
 @{
     Layout = "_Layout";
 
     var userDataCookie = Context.Request.Cookies["UserData"];
-    UserData userData = null;
 
-    if (!string.IsNullOrEmpty(userDataCookie))
+    if (userDataCookie != null)
     {
-        var moduleService = Context.RequestServices.GetService<IModuleService>();
-        var userDataUtility = new UserDataUtility(moduleService);
-        userData = userDataUtility.GetUserData(userDataCookie);
-    }
+        var userData = JsonConvert.DeserializeObject<UserResponse>(userDataCookie);
 
-    // Asigna los datos al ViewBag si existen
-    if (userData != null)
-    {
-        ViewBag.Modules = userData.Modules;
-        ViewBag.Token = userData.Token;
-        ViewBag.Name = userData.Name;
-        ViewBag.Email = userData.Email;
+        // Asigna los datos al ViewBag si existen
+        if (userData != null)
+        {
+            ViewBag.Modules = userData.Modules;
+            ViewBag.Token = userData.Token;
+            ViewBag.Name = userData.Name;
+            ViewBag.Email = userData.Email;
+        }
     }
 }
